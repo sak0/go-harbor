@@ -23,6 +23,7 @@ type Client struct {
 	// Services used for talking to different parts of the Harbor API.
 	Projects     *ProjectsService
 	Repositories *RepositoriesService
+	ChartRepos   *ChartRepositoriesService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -64,6 +65,7 @@ func newClient(harborClient *gorequest.SuperAgent, baseURL, username, password s
 	// Create all the public services.
 	c.Projects = &ProjectsService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
+	c.ChartRepos = &ChartRepositoriesService{client:c}
 	return c
 }
 
