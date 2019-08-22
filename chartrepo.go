@@ -29,6 +29,7 @@ type ChartVersionRecord struct {
 	Urls 			[]string	`json:"urls"`
 	CreationTime 	time.Time 	`json:"created"`
 	UpdateTime   	time.Time 	`json:"updated"`
+	Digest 			string 		`json:"digest"`
 }
 
 type ChartRepositoriesService struct {
