@@ -32,6 +32,19 @@ type ChartVersionRecord struct {
 	Digest 			string 		`json:"digest"`
 }
 
+type ChartVersionMetadata struct {
+	Name 		string 	`json:"name"`
+	Version 	string 	`json:"version"`
+	Description string	`json:"description"`
+	Digest 		string 	`json:"digest"`
+}
+
+type ChartVersionDetailRecord struct {
+	Metadata		ChartVersionMetadata	`json:"metadata"`
+	Values 			map[string]string		`json:"values"`
+	Files 			map[string]string 		`json:"files"`
+}
+
 type ChartRepositoriesService struct {
 	client *Client
 }
@@ -56,6 +69,15 @@ func (s *ChartRepositoriesService) ListChartVersions(projectName, repoName strin
 	var v []ChartVersionRecord
 	resp, _, errs := s.client.
 		NewRequest(gorequest.GET, fmt.Sprintf("chartrepo/%s/charts/%s", projectName, repoName)).
+		//Query(*opt).
+		EndStruct(&v)
+	return v, &resp, errs
+}
+
+func (s *ChartRepositoriesService) GetChartVersionDetail(projectName, repoName, version string) (ChartVersionDetailRecord, *gorequest.Response, []error) {
+	var v ChartVersionDetailRecord
+	resp, _, errs := s.client.
+		NewRequest(gorequest.GET, fmt.Sprintf("chartrepo/%s/charts/%s/%s", projectName, repoName, version)).
 		//Query(*opt).
 		EndStruct(&v)
 	return v, &resp, errs
