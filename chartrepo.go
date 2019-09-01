@@ -41,7 +41,7 @@ type ChartVersionMetadata struct {
 
 type ChartVersionDetailRecord struct {
 	Metadata		ChartVersionMetadata	`json:"metadata"`
-	Values 			map[string]string		`json:"values"`
+	Values 			map[string]interface{}		`json:"values"`
 	Files 			map[string]string 		`json:"files"`
 }
 
