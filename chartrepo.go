@@ -65,20 +65,27 @@ func (s *ChartRepositoriesService) ListChartRepositories(projectName string) ([]
 	return v, &resp, errs
 }
 
-func (s *ChartRepositoriesService) ListChartVersions(projectName, repoName string) ([]ChartVersionRecord, *gorequest.Response, []error) {
+func (s *ChartRepositoriesService) ListChartVersions(projectName, chartName string) ([]ChartVersionRecord, *gorequest.Response, []error) {
 	var v []ChartVersionRecord
 	resp, _, errs := s.client.
-		NewRequest(gorequest.GET, fmt.Sprintf("chartrepo/%s/charts/%s", projectName, repoName)).
+		NewRequest(gorequest.GET, fmt.Sprintf("chartrepo/%s/charts/%s", projectName, chartName)).
 		//Query(*opt).
 		EndStruct(&v)
 	return v, &resp, errs
 }
 
-func (s *ChartRepositoriesService) GetChartVersionDetail(projectName, repoName, version string) (ChartVersionDetailRecord, *gorequest.Response, []error) {
+func (s *ChartRepositoriesService) GetChartVersionDetail(projectName, chartName, version string) (ChartVersionDetailRecord, *gorequest.Response, []error) {
 	var v ChartVersionDetailRecord
 	resp, _, errs := s.client.
-		NewRequest(gorequest.GET, fmt.Sprintf("chartrepo/%s/charts/%s/%s", projectName, repoName, version)).
+		NewRequest(gorequest.GET, fmt.Sprintf("chartrepo/%s/charts/%s/%s", projectName, chartName, version)).
 		//Query(*opt).
 		EndStruct(&v)
 	return v, &resp, errs
+}
+
+func (s *ChartRepositoriesService) DeleteChart(projectName, chartName string) (*gorequest.Response, []error) {
+	resp, _, errs := s.client.
+		NewRequest(gorequest.DELETE, fmt.Sprintf("chartrepo/%s/charts/%s", projectName, chartName)).
+		End()
+	return &resp, errs
 }
